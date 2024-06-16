@@ -51,8 +51,10 @@ def dc():
             rawinput = request.form["in"]
 
             # process and store data
+            
             processedinput = main.removeDuplicates(rawinput)
-            joined = main.formatSorted(processedinput)
+            titles = main.sortDc(processedinput)
+            joined = main.formatSorted(titles)
             session["output"] = joined
 
             # redirect as per PRG pattern
