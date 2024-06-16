@@ -10,9 +10,13 @@
 </head>
 
 <body>
-    <main>
-        <a href="{{ url_for('home') }}">Back</a>
-    </main>
+    <a href="{{ url_for('home') }}">Back</a>
+
+    <form class="inputform" method="POST">
+        <textarea class="textinput" name="in" cols="50" rows="50"></textarea>
+        <input type="submit" class="buttoninput" name="marvelform" value="Sort" />
+        <textarea class="textoutput" readonly cols="50" rows="50">{{ output }}</textarea>
+    </form>
 </body>
 
 </html>

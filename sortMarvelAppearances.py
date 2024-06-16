@@ -1,10 +1,12 @@
-# Removes duplicates and groups issues by series
-# ISSUE: adding to file that already exists does not take into consideration
-# what is in the file, so it will be out of order
+"""
+Removes duplicates and groups issues by series for Marvel.
+Not web app related.
+Only runs in IDLE with the pasted thing as a multi line string???
+"""
 
 def sortMarvel(s: str):
     """
-    s: list of issue names from fandom.com wiki as a multiline string
+    list of issue names from fandom.com wiki
     """
     # get list of issue names (w. dup.s) (w. line breaks) and make into list
     names = s.split("\n")
