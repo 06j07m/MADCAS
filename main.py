@@ -71,34 +71,7 @@ def makeDcUrl(issueName: str) -> str:
 
 def findDatePublished(issueName: str) -> str:
     """
-    Get issue published date (DC wiki).
-    """
-    # Make url
-    testurl = makeDcUrl(issueName)
-
-    # Try to get webpage information
-    response = requests.get(testurl)
-    htmlContent = response.content
-    soup = BeautifulSoup(htmlContent, 'html.parser')
-    textContent = soup.get_text()
-
-    # Try to find find "published on"
-    toFind = "was published on "
-    pos = textContent.find(toFind)
-    if pos == -1:
-        return ""
-    
-    # If found, get index of date start and end
-    startPos = pos + len(toFind)
-    endPos = textContent.find(".", startPos)
-
-    date = textContent[startPos:endPos]
-    return date
-
-
-def convertDate(date: str) -> datetime.date:
-    """
-    Make date comparable.
+    Get issue published date (DC wiki) as comparable object.
     """
     MONTH = 0
     DAY = 1
@@ -116,18 +89,44 @@ def convertDate(date: str) -> datetime.date:
               "November": 11,
               "December": 12}
     
+    # Make url
+    testurl = makeDcUrl(issueName)
+
+    # Try to get webpage information
+    response = requests.get(testurl)
+    htmlContent = response.content
+    soup = BeautifulSoup(htmlContent, 'html.parser')
+    textContent = soup.get_text()
+
+    # Try to find find "published on"
+    toFind = "was published on "
+    pos = textContent.find(toFind)
+    if pos == -1:
+        return None
+    
+    # If found, get index of date start and end
+    startPos = pos + len(toFind)
+    endPos = textContent.find(".", startPos)
+
+    # Get date (mmmm dd, yyyy)
+    date = textContent[startPos:endPos]
+
     # Get date components
     comps = [comp.strip(",") for comp in date.split(" ")]
 
-    # Convert to numbers
-    month = MONTHS[comps[MONTH]]
-    day = int(comps[DAY])
-    year = int(comps[YEAR])
+    # If date doesn't convert, pretend it doesn't exist
+    try:
+        # Convert to numbers
+        month = MONTHS[comps[MONTH]]
+        day = int(comps[DAY])
+        year = int(comps[YEAR])
 
-    # Convert to date object
-    comparableDate = datetime.date(year, month, day)
-
-    return comparableDate
+        # Convert to date object
+        comparableDate = datetime.date(year, month, day)
+        
+        return comparableDate
+    except:
+        return None
 
 
 def sortDc(issueList: list[str]) -> list[str]:
@@ -150,11 +149,10 @@ def sortDc(issueList: list[str]) -> list[str]:
     noDate = []
     for i in range(len(firstIssues)):
         date = findDatePublished(firstIssues[i])
-        if date == "":
+        if date == None:
             noDate.append(series[i])
         else:
-            date2 = convertDate(date)
-            withDate.append((date2, series[i]))
+            withDate.append((date, series[i]))
 
     # sort series with date
     withDate.sort(key=itemgetter(0))
@@ -164,8 +162,10 @@ def sortDc(issueList: list[str]) -> list[str]:
     withDateSorted = sortAccordingly(issueList, withDate2)
     noDateSorted = sortAccordingly(issueList, noDate)
 
-    return noDateSorted + ["---"] + withDateSorted
+    if len(noDateSorted) != 0:
+        return noDateSorted + ["---"] + withDateSorted
 
+    return withDateSorted
 
 def formatSorted(sorted: list[str]) -> str:
     """

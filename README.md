@@ -3,6 +3,8 @@
 
 [About](#about) ~ [Features](#features) ~ [Installation](#installation) ~ [Usage](#usage) ~ [FAQ](#faq)
 
+<img src="images/showcase.gif" />
+
 ## About
 
 MADCAS allows you to paste from any character's Appearances list on the Marvel and DC fandom wikis and get a clean, sorted list! See [below](#what-do-you-mean-sorted) for more information on how it sorts.
@@ -10,7 +12,7 @@ MADCAS allows you to paste from any character's Appearances list on the Marvel a
 This is mostly for myself, but maybe also fellow nerds who want to binge read comics. 
 
 > [!WARNING]
-> It's still very slow for the DC Appearances sorter, due to having to make requests for every series. This is especially an issue for characters with many appearances. See [below](#how-can-i-workaround-the-dc-character-appearance-sorter-being-slow) for a workaround with less features.
+> There are issues for characters with many appearances-- 50+ gets really slow, 600+ might not work. :smiling_face_with_tear: See [below](#how-can-i-workaround-the-dc-character-appearance-sorter-being-slow) for a workaround for the slow-ness.
 
 ## Features
 
