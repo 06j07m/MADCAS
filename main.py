@@ -73,9 +73,6 @@ def findDatePublished(issueName: str) -> str:
     """
     Get issue published date (DC wiki) as comparable object.
     """
-    MONTH = 0
-    DAY = 1
-    YEAR = 2
     MONTHS = {"January": 1,
               "February": 2,
               "March": 3,
@@ -98,33 +95,46 @@ def findDatePublished(issueName: str) -> str:
     soup = BeautifulSoup(htmlContent, 'html.parser')
     textContent = soup.get_text()
 
-    # Try to find find "published on"
+    # Try to find "published on"
     toFind = "was published on "
     pos = textContent.find(toFind)
-    if pos == -1:
-        return None
-    
-    # If found, get index of date start and end
     startPos = pos + len(toFind)
+
+    if pos == -1:
+        # Try to find "with a cover date of"
+        toFind = "cover date of "
+        pos = textContent.find(toFind)
+        startPos = pos + len(toFind) + 1
+        
+        if pos == -1:
+            return None
+
+    # If found, get index of date start and end
     endPos = textContent.find(".", startPos)
 
-    # Get date (mmmm dd, yyyy)
+    # Get date 
     date = textContent[startPos:endPos]
 
     # Get date components
     comps = [comp.strip(",") for comp in date.split(" ")]
-
-    # If date doesn't convert, pretend it doesn't exist
+    
     try:
         # Convert to numbers
-        month = MONTHS[comps[MONTH]]
-        day = int(comps[DAY])
-        year = int(comps[YEAR])
+        month = MONTHS[comps[0]]
+        year = int(comps[-1])
+    
+        # MMMM DD, YYYY
+        if len(comps) == 3:
+            day = int(comps[1])
 
-        # Convert to date object
-        comparableDate = datetime.date(year, month, day)
-        
+        # MMMM, YY
+        elif len(comps) == 2:
+            day = 1
+
+        # Convert to date object (1st of the month)
+        comparableDate = datetime.date(year, month, 1)
         return comparableDate
+    # If date doesn't convert, pretend it doesn't exist
     except:
         return None
 
