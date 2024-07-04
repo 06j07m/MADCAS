@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 from operator import itemgetter
+import fileio
 
 
 def removeDuplicates(pasted: str) -> list[str]:
@@ -182,3 +183,10 @@ def formatSorted(sorted: list[str]) -> str:
     Join list with newline
     """
     return "\n".join(sorted)
+
+if __name__ == "__main__":
+    raw = fileio.openTxt("unsorted")
+    nodup = removeDuplicates(raw)
+    sortd = sortMarvel(nodup)
+    formatted = formatSorted(sortd)
+    fileio.saveTxt(formatted, "sorted")
