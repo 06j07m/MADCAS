@@ -184,9 +184,3 @@ def formatSorted(sorted: list[str]) -> str:
     """
     return "\n".join(sorted)
 
-if __name__ == "__main__":
-    raw = fileio.openTxt("unsorted")
-    nodup = removeDuplicates(raw)
-    sortd = sortMarvel(nodup)
-    formatted = formatSorted(sortd)
-    fileio.saveTxt(formatted, "sorted")
