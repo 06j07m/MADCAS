@@ -1,4 +1,9 @@
-import main
+"""
+Read and write files
+"""
+
+import helper
+
 
 def openTxt(filepathNoExt: str) -> str:
     file = open(filepathNoExt + ".txt", 'r')
@@ -8,17 +13,20 @@ def openTxt(filepathNoExt: str) -> str:
     return fileAsStr
 
 
-def openAndRemDup(filepathNoExt: str) -> list[str]:
-    file = open(filepathNoExt + ".txt", 'r')
-    fileAsStr = file.read()
-    file.close()
-        
-    return main.removeDuplicates(fileAsStr)
-
-
 def saveTxt(dataAsStr: str, filepathNoExt: str) -> None:
     try:
         file = open(filepathNoExt + ".txt", 'w')
+        file.write(dataAsStr)
+        file.close()
+    # print result if writing did not work
+    except OSError:
+        print(dataAsStr)
+
+
+def saveTxt(dataAsList: list[str], filepathNoExt: str) -> None:
+    try:
+        file = open(filepathNoExt + ".txt", 'w')
+        dataAsStr = helper.formatSorted(dataAsList)
         file.write(dataAsStr)
         file.close()
     # print result if writing did not work

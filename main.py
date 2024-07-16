@@ -1,12 +1,12 @@
 """
-Web app related sorting functions.
+Web app related sorting functions
 """
 
 import requests
 from bs4 import BeautifulSoup
 import datetime
 from operator import itemgetter
-import fileio
+import helper
 
 
 def removeDuplicates(pasted: str) -> list[str]:
@@ -26,13 +26,6 @@ def removeDuplicates(pasted: str) -> list[str]:
     return uniqueList
 
 
-def getTitle(issueName: str) -> str:
-    """
-    Get series title.
-    """
-    return issueName[:issueName.rfind(" ")]
-
-
 def sortAccordingly(allIssues, seriesInOrder):
     """
     Sorts all issues into new list based on series order.
@@ -41,7 +34,7 @@ def sortAccordingly(allIssues, seriesInOrder):
 
     # add all issues from each series to sorted list
     for title in seriesInOrder:
-        sorted += [issue for issue in allIssues if getTitle(issue) == title]
+        sorted += [issue for issue in allIssues if helper.getTitle(issue) == title]
 
     return sorted
 
@@ -53,7 +46,7 @@ def sortMarvel(issueList: list[str]) -> list[str]:
     # get series titles in order
     series = []
     for issue in issueList:
-        title = getTitle(issue)
+        title = helper.getTitle(issue)
         if title not in series:
             series.append(title)
 
@@ -150,7 +143,7 @@ def sortDc(issueList: list[str]) -> list[str]:
     series = []
     firstIssues = []
     for issue in issueList:
-        title = getTitle(issue)
+        title = helper.getTitle(issue)
         if title not in series:
             series.append(title)
             firstIssues.append(issue)
@@ -177,10 +170,3 @@ def sortDc(issueList: list[str]) -> list[str]:
         return noDateSorted + ["---"] + withDateSorted
 
     return withDateSorted
-
-def formatSorted(sorted: list[str]) -> str:
-    """
-    Join list with newline
-    """
-    return "\n".join(sorted)
-
