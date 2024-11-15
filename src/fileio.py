@@ -13,6 +13,14 @@ def openTxt(filepathNoExt: str) -> str:
     return fileAsStr
 
 
+def openTxt(filepathNoExt: str) -> list[str]:
+    file = open(filepathNoExt + ".txt", 'r')
+    fileAsStr = file.read()
+    file.close()
+
+    return helper.getLines(fileAsStr)
+
+
 def saveTxt(dataAsStr: str, filepathNoExt: str) -> None:
     try:
         file = open(filepathNoExt + ".txt", 'w')

@@ -3,7 +3,7 @@ flask app/ui
 """
 
 from flask import Flask, render_template, request, redirect, url_for, session
-import main
+import main, helper, fileio
 
 app = Flask(__name__)
 app.secret_key = "royharperiscool"
@@ -24,7 +24,7 @@ def marvel():
             rawinput = request.form["in"]
 
             # process and store data
-            processedinput = main.removeDuplicates(rawinput)
+            processedinput = main.removeDuplicates(helper.getLines(rawinput))
             titles = main.sortMarvel(processedinput)
             joined = main.formatSorted(titles)
             session["output"] = joined
@@ -52,7 +52,7 @@ def dc():
 
             # process and store data
             
-            processedinput = main.removeDuplicates(rawinput)
+            processedinput = main.removeDuplicates(helper.getLines(rawinput))
             titles = main.sortDc(processedinput)
             joined = main.formatSorted(titles)
             session["output"] = joined
