@@ -13,7 +13,7 @@ def openTxt(filepathNoExt: str) -> str:
     return fileAsStr
 
 
-def openTxt(filepathNoExt: str) -> list[str]:
+def openTxtList(filepathNoExt: str) -> list[str]:
     file = open(filepathNoExt + ".txt", 'r')
     fileAsStr = file.read()
     file.close()
@@ -31,7 +31,7 @@ def saveTxt(dataAsStr: str, filepathNoExt: str) -> None:
         print(dataAsStr)
 
 
-def saveTxt(dataAsList: list[str], filepathNoExt: str) -> None:
+def saveTxtList(dataAsList: list[str], filepathNoExt: str) -> None:
     try:
         file = open(filepathNoExt + ".txt", 'w')
         dataAsStr = helper.formatSorted(dataAsList)
