@@ -43,5 +43,5 @@ def getLines(pasted: str) -> list[str]:
     Get list of issue names (w. dup.s) (w. line breaks) and make into list
     (remove returns/end of lines)
     """
-    lines = [i.strip("\r") for i in pasted.strip().split("\n")]
+    lines = [i.strip() for i in pasted.strip().split("\n")]
     return lines
