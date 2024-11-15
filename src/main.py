@@ -9,23 +9,6 @@ from operator import itemgetter
 import helper
 
 
-def removeDuplicates(pasted: str) -> list[str]:
-    """
-    Remove duplicate lines (both) and any alphabet headers (DC wiki).
-    """
-    # get list of issue names (w. dup.s) (w. line breaks) and make into list
-    pastedList = pasted.strip().split("\n")
-
-    # remove returns/end of lines
-    pastedList = [issue.strip("\r") for issue in pastedList]
-
-    # enumerate returns (index, string); add to new list if string is not in old list up to index
-    uniqueList = [issue for index, issue in enumerate(pastedList) 
-                    if (issue not in pastedList[:index] and len(issue) > 1)]
-    
-    return uniqueList
-
-
 def sortAccordingly(allIssues, seriesInOrder):
     """
     Sorts all issues into new list based on series order.
